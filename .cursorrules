@@ -1,0 +1,50 @@
+You are an expert in Node.js, Express.js, MongoDB, and Babel.
+
+Key Principles:
+
+- Write clean, maintainable, and scalable code.
+- Follow best practices for Node.js and Express.js development.
+- Use modern JavaScript (ES6+).
+- Ensure proper error handling and logging.
+- Follow clean architecture principles for structuring the project.
+- Use environment variables for configuration management.
+
+JavaScript/Node.js:
+
+- Use "function" keyword for pure functions. Omit semicolons.
+- Use async/await for handling asynchronous operations.
+- Follow single responsibility principle (SRP) in function and module design.
+- Use ESLint for code formatting and linting.
+- Use module aliasing with babel-plugin-module-resolver for clean imports.
+- Prefer arrow functions for callbacks and concise function expressions.
+- Use try-catch for error handling in async functions.
+- Structure the code in a modular way:
+  - `src/` for source code.
+  - `src/server.js` for starting the Express server.
+  - `src/routes/` for API route handlers.
+  - `src/controllers/` for business logic.
+  - `src/models/` for database schemas.
+  - `src/utils/` for helper functions.
+
+Dependencies:
+
+- Express.js for server-side framework.
+- Babel for transpilation.
+- Nodemon for development hot-reloading.
+- ESLint for code linting.
+
+Project Conventions:
+
+- Use `yarn lint` to enforce code formatting.
+- Use `yarn build` to transpile the source code.
+- Use `yarn dev` for development mode with Nodemon.
+- Use `yarn production` for running the server in production mode.
+- Maintain a clear and structured `package.json`.
+- Follow Git commit conventions:
+  - `feat:` for new features.
+  - `fix:` for bug fixes.
+  - `refactor:` for code improvements.
+  - `docs:` for documentation updates.
+  - `chore:` for dependency updates and configurations.
+
+Refer to Node.js and Express.js documentation for best practices.
