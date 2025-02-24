@@ -10,6 +10,9 @@ const START_SERVER = () => {
   const hostname = env.APP_HOST
   const port = env.APP_PORT
 
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
+
   app.use('/v1', APIs_V1)
 
   app.listen(port, hostname, () => {
