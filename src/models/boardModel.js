@@ -19,11 +19,19 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false)
 })
 
+const validateBeforeCreate = async data => {
+  return await BOARD_COLLECTION_SCHEMA.validateAsync(data, {
+    abortEarly: false
+  })
+}
+
 const createNew = async data => {
   try {
+    const validatedData = await validateBeforeCreate(data)
+
     const createdBoard = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
-      .insertOne(data)
+      .insertOne(validatedData)
 
     return createdBoard
   } catch (error) {
@@ -35,7 +43,7 @@ const findOneById = async id => {
   try {
     const board = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
-      .findOne({ _id: id })
+      .findOne({ _id: new ObjectId(id) })
 
     return board
   } catch (error) {
