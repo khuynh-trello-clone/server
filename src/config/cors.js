@@ -6,6 +6,7 @@ import ApiError from '~/utils/ApiError'
 export const corsOptions = {
   origin: function (origin, callback) {
     //  Allow in dev mode, allow POSTMAN
+
     if (!origin && env.BUILD_MODE === 'dev') {
       return callback(null, true)
     }
