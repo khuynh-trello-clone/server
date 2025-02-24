@@ -32,11 +32,16 @@ const createNew = async data => {
   try {
     const validatedData = await validateBeforeCreate(data)
 
-    const createdBoard = await GET_DB()
-      .collection(COLUMN_COLLECTION_NAME)
-      .insertOne(validatedData)
+    const newColumnToAdd = {
+      ...validatedData,
+      boardId: new ObjectId(validatedData.boardId)
+    }
 
-    return createdBoard
+    const createdColumn = await GET_DB()
+      .collection(COLUMN_COLLECTION_NAME)
+      .insertOne(newColumnToAdd)
+
+    return createdColumn
   } catch (error) {
     throw new Error(error)
   }
@@ -44,11 +49,33 @@ const createNew = async data => {
 
 const findOneById = async id => {
   try {
-    const board = await GET_DB()
+    const column = await GET_DB()
       .collection(COLUMN_COLLECTION_NAME)
       .findOne({ _id: new ObjectId(id) })
 
-    return board
+    return column
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const pushCardOrderIds = async card => {
+  try {
+    const result = await GET_DB()
+      .collection(COLUMN_COLLECTION_NAME)
+      .findOneAndUpdate(
+        { _id: new ObjectId(card.columnId) },
+        {
+          $push: {
+            cardOrderIds: new ObjectId(card._id)
+          }
+        },
+        {
+          returnDocument: 'after'
+        }
+      )
+
+    return result.value
   } catch (error) {
     throw new Error(error)
   }
@@ -58,5 +85,6 @@ export const columnModel = {
   COLUMN_COLLECTION_NAME,
   COLUMN_COLLECTION_SCHEMA,
   createNew,
-  findOneById
+  findOneById,
+  pushCardOrderIds
 }

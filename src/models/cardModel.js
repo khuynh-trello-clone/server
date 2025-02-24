@@ -33,11 +33,17 @@ const createNew = async data => {
   try {
     const validatedData = await validateBeforeCreate(data)
 
-    const createdBoard = await GET_DB()
-      .collection(CARD_COLLECTION_NAME)
-      .insertOne(validatedData)
+    const newCardToAdd = {
+      ...validatedData,
+      boardId: new ObjectId(validatedData.boardId),
+      columnId: new ObjectId(validatedData.columnId)
+    }
 
-    return createdBoard
+    const createdCard = await GET_DB()
+      .collection(CARD_COLLECTION_NAME)
+      .insertOne(newCardToAdd)
+
+    return createdCard
   } catch (error) {
     throw new Error(error)
   }
@@ -45,11 +51,11 @@ const createNew = async data => {
 
 const findOneById = async id => {
   try {
-    const board = await GET_DB()
+    const card = await GET_DB()
       .collection(CARD_COLLECTION_NAME)
       .findOne({ _id: new ObjectId(id) })
 
-    return board
+    return card
   } catch (error) {
     throw new Error(error)
   }
