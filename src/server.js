@@ -2,6 +2,7 @@ import express from 'express'
 import { CLOSE_DB, CONNECT_DB } from './config/mongodb'
 import exitHook from 'async-exit-hook'
 import { env } from './config/environment'
+import { APIs_V1 } from './routes/v1'
 
 const START_SERVER = () => {
   const app = express()
@@ -9,11 +10,7 @@ const START_SERVER = () => {
   const hostname = env.APP_HOST
   const port = env.APP_PORT
 
-  app.get('/', (req, res) => {
-    // Test Absolute import mapOrder
-
-    res.end('<h1>Hello World!</h1><hr>')
-  })
+  app.use('/v1', APIs_V1)
 
   app.listen(port, hostname, () => {
     // eslint-disable-next-line no-console
