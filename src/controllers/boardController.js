@@ -6,9 +6,7 @@ const createNew = async (req, res, next) => {
       message: 'Welcome to the boards route from controller'
     })
   } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: error.message
-    })
+    next(error)
   }
 }
 
