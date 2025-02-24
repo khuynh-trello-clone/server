@@ -51,9 +51,23 @@ const findOneById = async id => {
   }
 }
 
+// Get board details, including columns and cards, by aggregate
+const getDetails = async id => {
+  try {
+    const board = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(id) })
+
+    return board
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
-  findOneById
+  findOneById,
+  getDetails
 }
