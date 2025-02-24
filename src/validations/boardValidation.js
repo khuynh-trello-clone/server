@@ -13,7 +13,7 @@ const createNew = async (req, res, next) => {
       abortEarly: false
     })
 
-    // next()
+    next()
   } catch (error) {
     return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       errors: new Error(error).message
