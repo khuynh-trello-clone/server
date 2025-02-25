@@ -1,4 +1,4 @@
-import Joi from 'joi'
+import Joi, { object } from 'joi'
 import { ObjectId } from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
 import { BOARD_TYPES } from '~/utils/constants'
@@ -22,6 +22,8 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
   updatedAt: Joi.date().timestamp('javascript').default(null),
   _destroy: Joi.boolean().default(false)
 })
+
+const INVALID_UPDATE_FIELDS = ['_id', 'createdAt']
 
 const validateBeforeCreate = async data => {
   return await BOARD_COLLECTION_SCHEMA.validateAsync(data, {
@@ -108,7 +110,33 @@ const pushColumnOrderIds = async column => {
         }
       )
 
-    return result.value
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const update = async (boardId, updateData) => {
+  try {
+    Object.keys(updateData).forEach(key => {
+      if (INVALID_UPDATE_FIELDS.includes(key)) {
+        delete updateData[key]
+      }
+    })
+
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        { _id: new ObjectId(boardId) },
+        {
+          $set: updateData
+        },
+        {
+          returnDocument: 'after'
+        }
+      )
+
+    return result
   } catch (error) {
     throw new Error(error)
   }
@@ -120,5 +148,6 @@ export const boardModel = {
   createNew,
   findOneById,
   getDetails,
-  pushColumnOrderIds
+  pushColumnOrderIds,
+  update
 }
