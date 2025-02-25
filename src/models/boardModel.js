@@ -124,6 +124,12 @@ const update = async (boardId, updateData) => {
       }
     })
 
+    if (updateData.columnOrderIds) {
+      updateData.columnOrderIds = updateData.columnOrderIds.map(
+        cardId => new ObjectId(cardId)
+      )
+    }
+
     const result = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
       .findOneAndUpdate(
