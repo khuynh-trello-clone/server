@@ -75,7 +75,7 @@ const pushCardOrderIds = async card => {
         }
       )
 
-    return result.value
+    return result
   } catch (error) {
     throw new Error(error)
   }
